@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Roblox Utility</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body style="margin: 0;">
+    <!-- TOP NAV AND SIDE NAV-->  
+
+    <div class="topnav">
+        <span onclick="openNav()">&#9776;</span>
+        <img src="./Icons/Tr_Logo_White.png" style="height: 25px; margin: 5px; width: auto;  display: block;  margin-left: auto;"/>
+      </div>
+      
+      <div id="mySidenav" class="sidenav">
+        <p id="PlayerName">Guest</p>
+        <div></div>
+        <a href="./ChooseProfilMenu.html">Profils</a>
+        <a href="./RichPresence.html">Rich presence</a>
+      </div>
+      <script>
+        var i=false
+        function openNav() {
+          if (i){
+            document.getElementById("mySidenav").style.width = "0";
+          }else{
+            document.getElementById("mySidenav").style.width = "250px";
+            
+          }
+          i=!i
+          
+        }
+      </script>
+
+    <!-- PAGE CONTENT -->
+
+
+    <section style="height: 100%;width: 100%;margin: -15px 0;position: fixed; padding: 0;" id="OpenRecent">
+      <div style="text-align: center;font-size: 50px;">
+        <p>Select a profile</p></div>
+        <!-- Table of profils -->
+        <div id="ProfileTable" class="Profiles">
+          <div style="background-color: white;height: 200px;width: 150px;opacity: 1;background-size: auto 100%;background-position-x: center;background-color: grey;display:inline-block;position: relative;border-radius: 15px;margin: 10px;border: black;border-style: solid;border-width: 5px;">
+            <div style="background-image: linear-gradient(to bottom, rgba(0,0,0,0), #000000ad 60%);height: 100%;width: 100%;display: table;position: static;display: flow-root;">
+              <a style="width: 100%;height: 100%;cursor: pointer;z-index: 555;display: block;position: absolute;border-radius: 10px;transition: 0.3s;" href="./NewProfile.html"></a> 
+              <p style="font-size: 300%;color:white;text-align: center;width: 100%;height: 20px;font-size: 20px;">New profile</p>
+              <img src="./Icons/PlusIcon.png" style="width: 50%;height: auto;position: absolute;display: block;top: 25%;border-radius: 20px;top: 33%; left: 18%; border-radius: 100px; border-style: dashed; border-width: 7px;border-color: white;">
+            </div>
+          </div>
+      </div>
+    </section>
+  </section>   
+  </body>
+  <script>
+    const { ipcRenderer } = require('electron')
+    var o = ipcRenderer.sendSync('info', {Type: "getcurrentuser"})
+
+    document.getElementById("PlayerName").innerHTML = o.UserName
+
+    ipcRenderer.send('info', {Type: "getProfils"})
+  </script>
+</html>

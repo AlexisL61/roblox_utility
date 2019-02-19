@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Roblox Utility</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body style="margin: 0;">
+    <!-- TOP NAV AND SIDE NAV-->  
+
+    <div class="topnav">
+        <span onclick="openNav()">&#9776;</span>
+        <img src="./Icons/Tr_Logo_White.png" style="height: 25px; margin: 5px; width: auto;  display: block;  margin-left: auto;"/>
+      </div>
+      
+      <div id="mySidenav" class="sidenav">
+        <p id="PlayerName">Guest</p>
+        <div></div>
+        <a href="./ChooseProfilMenu.html">Profils</a>
+        <a href="./RichPresence.html">Rich presence</a>
+      </div>
+      <script>
+        var i=false
+        function openNav() {
+          if (i){
+            document.getElementById("mySidenav").style.width = "0";
+          }else{
+            document.getElementById("mySidenav").style.width = "250px";
+            
+          }
+          i=!i
+          
+        }
+      </script>
+
+    <!-- PAGE CONTENT -->
+
+
+    <section style="height: 100%;width: 100%;margin: -15px 0;position: fixed; padding: 0;" id="OpenRecent">
+      <div style="text-align: center;font-size: 50px;">
+        <p>Status</p>
+      </div>
+      <img id = "Image" src= "Icons/LoadingRPC.png" style="height:25vw;width: 25vw;margin-left: 22.5vw;background-color:burlywood;border-radius: 10%; position: fixed"/>
+      <p style="width: 25vw;margin-left: 52.5vw;font-size: 4VW">ROBLOX</p>
+      <p id = "Details" style="width: 25vw;margin-left: 52.5vw;font-size: 3VW">Loading...</p>
+      <input id= "Input" style="margin-top:-1VW;margin-left: 52.5vw;text-decoration: none;border-style: solid;width:20vW;height: 50px;font-size: 3VW;text-align: center;border-radius: 15px;">
+    </section>
+  </section>   
+  <script>
+    const { ipcRenderer } = require('electron');
+
+    function OnLoadFunction(){
+    
+    var o = ipcRenderer.sendSync('info', {Type: "getcurrentuser", Addition: document.getElementById("Input").value})
+    console.log(o)
+    if(!o.PresenceDetails){
+      document.getElementById("Details").innerHTML = "Loading..."
+    }else{
+      document.getElementById("Details").innerHTML = o.PresenceDetails
+    }
+    if(!o.PresenceImage){
+      document.getElementById("Image").src = "Icons/LoadingRPC.png"
+    }else{
+      document.getElementById("Image").src = o.PresenceImage
+    }
+     
+    
+    }
+
+    setInterval(OnLoadFunction,15000)
+    OnLoadFunction()
+  </script>
+  </body>
+ 
+</html>

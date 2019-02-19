@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Roblox Utility</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body style="margin: 0;">
+    <!-- TOP NAV AND SIDE NAV-->  
+
+    <div class="topnav">
+        <span onclick="openNav()">&#9776;</span>
+        <img src="./Icons/Tr_Logo_White.png" style="height: 25px; margin: 5px; width: auto;  display: block;  margin-left: auto;"/>
+      </div>
+      
+      <div id="mySidenav" class="sidenav">
+        <p id="PlayerName">Guest</p>
+        <div></div>
+        <a href="./ChooseProfilMenu.html">Profils</a>
+        <a href="./RichPresence.html">Rich presence</a>
+      </div>
+      <script>
+        var i=false
+        function openNav() {
+          if (i){
+            document.getElementById("mySidenav").style.width = "0";
+          }else{
+            document.getElementById("mySidenav").style.width = "250px";
+            
+          }
+          i=!i
+          
+        }
+      </script>
+
+    <!-- PAGE CONTENT -->
+
+
+    <section style="height: 100%;width: 100%;margin: -15px 0;position: fixed; padding: 0;" id="OpenRecent">
+        <div style="text-align: center;font-size: 30px;">
+            <p style="font-size: 50px;">New profile</p>
+            <p style="margin: 0;">Username</p>
+            <input style="text-decoration: none;border-style: solid;width: 300px;height: 50px;font-size: 25px;text-align: center;border-radius: 15px;" maxlength="20" id="UserNInput">
+            <br><br><br>
+            <a class="NewProfileConfirmButton" onclick="fucn()">Confirm</a>
+            <p style="color: red;font-size:20px;display:none;" id="Err">Cannot find user</p>
+            <script>
+                var lock = false
+                const { ipcRenderer } = require('electron')
+                ipcRenderer.on('NewProfileError', (event, arg) => {
+                    lock = false
+                    document.getElementById("Err").style.display = "block"
+                })
+                ipcRenderer.on('ProfileCreated', (event, arg) => {
+                    lock = false
+                    document.getElementById("Err").innerHTML = "Profile created!"
+                    document.getElementById("Err").style.color = "green"
+                    document.getElementById("Err").style.display = "block"
+                })
+                function fucn(){
+                    if(!lock){
+                        lock = true
+                        document.getElementById("Err").style.display = "none"
+                        var UserN = document.getElementById("UserNInput").value
+                        ipcRenderer.send('info', {Type: 'MakeNewProfile', name: UserN})
+                    }
+                }
+            </script>
+        </div>  
+    </section> 
+  </body>
+  <script>
+    const { ipcRenderer } = require('electron')
+    var o = ipcRenderer.sendSync('info', {Type: "getcurrentuser"})
+
+    document.getElementById("PlayerName").innerHTML = o.UserName
+  </script>
+</html>

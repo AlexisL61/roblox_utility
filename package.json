@@ -1,0 +1,20 @@
+{
+  "name": "robloxutility",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "AlexisL61",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^4.0.5"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "discord-rich-presence": "0.0.8",
+    "discord-rpc": "^3.0.1",
+    "update-electron-app": "^1.3.0"
+  }
+}
